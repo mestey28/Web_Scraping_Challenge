@@ -9,10 +9,12 @@ def init_browser():
     return Browser('chrome', **executable_path, headless=False)
 
 
-def scrape():
-    browser=init_browser()
     mars_web={}
     hemisphere_image_urls=[]
+
+def scrape_news():
+    
+    browser=init_browser()
 
     # Visit the mars nasa news site
     url="https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
@@ -29,10 +31,17 @@ def scrape():
     #Collect the latest Paragraph Text
     news_p=soup.find('li', class_='slide').find('div', class_="article_teaser_body").text
 
+    mars_web['news_title']= news_title
+    mars_web['news_p']= news_paragraph
+
+    return mars_web
+
+def scrape_Mars_Img():
+    browser= init_browser()
     # Visit the url for JPL Featured Space Image
-    image_url='https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
-    browser.visit(image_url)
-    time.sleep(.1)
+    url='https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
+    browser.visit(url)
+    time.sleep(1)
 
     # Navigate site and save full size url string of image to variable
 
@@ -52,11 +61,24 @@ def scrape():
     #add image url to base url
     featured_image_url=base_url + img_url
 
+    mars_web['featured_image']= featured
+
+    return mars_web
+
     #Mars Facts
+def scrape_marsFacts():
+    browser= init_browser()   
     # Have pandas read any tables on mars facts page
     facts_url = 'https://space-facts.com/mars/'
 
-    fact_table = pd.read_html(facts_url
+    browser.visit(url)
+    time.sleep(1)
+
+    html = browser.html
+    soup = bs(html, "html.parser") 
+
+
+    fact_table = pd.read_html(facts_url)
 
     # Filter to table I want to work with
     fact_df = fact_table[0]
@@ -71,8 +93,34 @@ def scrape():
     html_fact = facts.to_html()
     html_fact = html_fact.replace('\n', '')
 
+    mars_web['mars_data'] = html_fact
+    return mars_web
+
     ##Mars Hemispheres
-    # Define and retrieve the page
+    def scrape_marsHemi1():
+        browser = init_browser()
+        ### Mars Hemispheres Scraping
+        #cerberus url
+        url = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced'
+        browser.visit(url)
+        html=browser.html
+        soup = bs(html, 'html.parser')
+        cerberus_url = (soup.find_all('div', class_='downloads')[0].li.a.get('href'))
+        mars_web['hemisphere_urls'] = hemisphere_image_urls
+        hemisphere_image_urls.append([{"title": "Cerberus Hemisphere", "img_url": cerberus_url}])
+        
+        
+        return mars_web
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ###### Define and retrieve the page
     hemisphere_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
 
     browser.visit(hemisphere_url)

@@ -7,9 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mission to Mars</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" >
   <style>
-          #toppage{
+    #toppage{
     background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQi2MQOINsXqK5GlcAsoqZTTsdfZw4-igPndg&usqp=CAU")
 
     .btn{
@@ -43,25 +43,65 @@
     <!-- Container for the title and scraper button -->
     <div class="container-fluid" >
       <div class="jumbotron text-center" id="toppage">
-        <h1 style='color:white'><b>Mission to Mars</b></h1>
+        <h1 style='color:red'><b>Mission to Mars</b></h1>
         <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
       </div>
     </div>
-  <h1> Latest Mars News </h1>
-
-  
-  <h1>Featured Mars Image</h1>
-  <img src="{{ indexlink.Featured_mars_image }}" alt="Mars" class="img-fluid img-responsive">
-  <h2><b>Mars Facts</b></h2>
-  <div class="box">
-    {{ indexlink.Mars_facts | safe }}
-  </div>
-
-  <h1> Mars Hemispheres</h1>
-  <a href="https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars" </a>
-  
 
 
+    <div class = "container">
+      <div class="row">
+          <div class="col-md-12">
+            <div class="media">
+              <div class="media-body" style="text-align:center;">
+                <div class="boxed">
+                <h2><b>Latest Mars News</b></h2>
+                <h4 class="media-heading"><b>{{ mars.Mars_news_headline }}</b></h4>
+                <h5><p>{{ mars.Mars_news_p }}</p></h5>
+                <h5><a class="nav-link" href="https://mars.nasa.gov/news/" target="_blank" style="color: darkred;" ></a></h5>
+                </div>
+                <br>
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class='container-fluid' >
+        <div class="row" >
+          <!-- Featured Mars image -->
+          <div class="col-md-8">
+            <h2><b>Current Featured Mars Image</b></h2>
+            <img src="{{ mars.Featured_mars_image }}" alt="Mars" class="img-fluid img-responsive">
+          </div>
+            <!-- Mars facts -->
+          <div class="col-md-4">
+            <h2><b>Mars Facts</b></h2>
+            <div class="box">
+              {{ mars.Mars_fact | safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Mars hemispheres-->
+    <div class='container-fluid' >
+      <div class="row" style="margin-top:80px;">
+        <div class="page-header">
+          <h2 class="text-center"><b>Mars Hemispheres Images</b></h2>
+          <h5 style="text-align:center;"><a class="nav-link" href="https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars" target="_blank" ></a></h5>
+        </div>
+        {% for hemisphere in mars.Mars_hemispheres %}
+        <div class="col-md-6" >
+            <div class="thumbnail" >
+              <img src="{{hemisphere.img_url}}" alt="Hemisphere" width="800" height="800">
+              <div class="caption">
+                  <h3 class="text-center"><b>{{hemisphere.title}}</b></h3>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
     
 </body>
 </html>

@@ -130,13 +130,13 @@ def scrape():
     browser.quit() 
 
     # Dictionary with all scraped info
-    mars_dict={
-    "Mars_news_headline": news_title,
+    mars_dict=[{
+    "Mars_news_headline": "news_title",
     "Mars_news_p": news_p,
     "Featured_mars_image": featured_image_url,
-    "Mars_facts": html_fact,
+    "Mars_fact": html_fact,
     "Mars_hemispheres": hemisphere_image_urls
-    }
+    }]
     return mars_dict
 
 if __name__ == "__main__":

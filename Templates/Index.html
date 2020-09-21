@@ -49,7 +49,16 @@
     </div>
   <h1> Latest Mars News </h1>
 
+  
   <h1>Featured Mars Image</h1>
+  <img src="{{ indexlink.Featured_mars_image }}" alt="Mars" class="img-fluid img-responsive">
+  <h2><b>Mars Facts</b></h2>
+  <div class="box">
+    {{ indexlink.Mars_facts | safe }}
+  </div>
+
+  <h1> Mars Hemispheres</h1>
+  <a href="https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars" </a>
   
 
 

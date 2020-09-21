@@ -131,7 +131,7 @@ def scrape():
 
     # Dictionary with all scraped info
     mars_dict=[{
-    "Mars_news_headline": "news_title",
+    "Mars_news_headline": news_title,
     "Mars_news_p": news_p,
     "Featured_mars_image": featured_image_url,
     "Mars_fact": html_fact,
